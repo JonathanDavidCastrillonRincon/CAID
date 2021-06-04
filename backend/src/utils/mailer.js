@@ -6,7 +6,7 @@ var config = {
   port: 465,
   auth: {
     user: "caidapplication@gmail.com",
-    pass: "caid123.",
+    pass: "...+caidlj+...",
   },
   // tls: {
   //   rejectUnauthorized: true,
