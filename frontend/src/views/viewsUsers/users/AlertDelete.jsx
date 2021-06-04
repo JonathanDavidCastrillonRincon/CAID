@@ -2,13 +2,9 @@
 import Swal from "sweetalert2";
 
 /* ============================================================== */
-<<<<<<< HEAD
-/*--- Alert eliminar un mensaje ---*/
-=======
-/*--- Alert desactivar usuario ---*/
->>>>>>> 250b59ffb65bb6d1fa606809eac70eedf2662833
+/*--- Alert eliminar un usuario ---*/
 /* ============================================================== */
-const AlertUnactive = ({ message }) => {
+const AlertDelete = () => {
   const Toast = Swal.mixin({
     toast: true,
     position: "bottom",
@@ -29,7 +25,7 @@ const AlertUnactive = ({ message }) => {
   });
 };
 /* ============================================================== */
-/*--- Fin Alert elimianr un mensaje ---*/
+/*--- Fin Alert eliminar un usuario ---*/
 /* ============================================================== */
 
-export default AlertUnactive;
+export default AlertDelete;

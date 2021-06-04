@@ -5,8 +5,8 @@ var config = {
   host: "smtp.gmail.com",
   port: 465,
   auth: {
-    user: "jcastrillon2@udi.edu.co",
-    pass: "diminombre01",
+    user: "caidapplication@gmail.com",
+    pass: "caid123.",
   },
   // tls: {
   //   rejectUnauthorized: true,
@@ -16,7 +16,7 @@ var config = {
 var transporter = nodemailer.createTransport(config);
 
 var defaultMail = {
-  from: "no-reply <jcastrillon2@udi.edu.co>",
+  from: "no-reply <caidapplication@gmail.com>",
 };
 
 module.exports = function (mail) {

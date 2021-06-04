@@ -5,13 +5,15 @@ import React, { useState, useEffect } from "react";
 import DataTable from "@bit/adeoy.utils.data-table";
 
 //Librería de íconos
-import { FaEdit, FaUserPlus, FaUserSlash } from "react-icons/fa";
+import { FaEdit, FaTrash, FaUserPlus, FaUserSlash } from "react-icons/fa";
 
 //Librería de componentes bootstrap
 import { Button } from "react-bootstrap";
 
 //Importar modal desactivar usuario
 import ModalUnactive from "./ModalUnactive";
+//Importar modal borrar usuario
+import ModalDelete from "./ModalDelete";
 
 //Librería de componentes de la plantilla
 import {
@@ -25,13 +27,14 @@ import {
 } from "@coreui/react";
 import { useHistory } from "react-router-dom";
 import moment from "moment";
-import { getAllUser, changeStatus } from "src/api/user";
+import { getAllUser, changeStatus, deleteUser } from "src/api/user";
 
 const Users = () => {
   const history = useHistory();
 
   const [users, setUsers] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [showModalDelete, setShowModalDelete] = useState(false);
   const [dataByUser, setDataByUser] = useState("");
 
   useEffect(() => {
@@ -54,12 +57,29 @@ const Users = () => {
     setDataByUser(row);
   };
 
+  const showCloseModalDelete = (row) => {
+    setShowModalDelete(!showModalDelete);
+    setDataByUser(row);
+  };
+
   const handleChangeStatus = () => {
     const data = dataByUser;
     const status = data.status === false ? true : false;
     changeStatus(data._id, status).then((res) => {
-      setShowModal(false);
-      getAllUsers();
+      if (res) {
+        setShowModal(false);
+        getAllUsers();
+      }
+    });
+  };
+
+  const deleteByUser = () => {
+    const data = dataByUser;
+    deleteUser(data._id).then((res) => {
+      if (res) {
+        showCloseModalDelete(false);
+        getAllUsers();
+      }
     });
   };
 
@@ -142,6 +162,22 @@ const Users = () => {
           </CTooltip>
         ) : null,
     },
+    {
+      title: "Borrar",
+      format: (row) =>
+        !row.role.includes("admin") ? (
+          <CTooltip placement="left" content={`Eliminar`}>
+            <button
+              type="button"
+              style={{ color: "black" }}
+              className="btn btn-light"
+              onClick={() => showCloseModalDelete(row)}
+            >
+              <FaTrash />
+            </button>
+          </CTooltip>
+        ) : null,
+    },
   ];
 
   //Fin variables encabezado
@@ -153,9 +189,17 @@ const Users = () => {
       activeUnactive={dataByUser.status}
     />
   );
+  const modalDeleteComponent = (
+    <ModalDelete
+      show={showModalDelete}
+      onClose={showCloseModalDelete}
+      deleteUser={deleteByUser}
+    />
+  );
   return (
     <>
       {modalComponent}
+      {modalDeleteComponent}
       <CRow>
         {/* ============================================================== */}
         {/*--- Componente de usuarios ---*/}

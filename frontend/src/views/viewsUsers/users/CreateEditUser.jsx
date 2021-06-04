@@ -57,7 +57,6 @@ const CreateUser = (props) => {
   //Declaracion de campos form post user
   const [datos, setDatos] = useState({
     role: ["teacher"],
-    username: "",
     password: "",
     name: "",
     identificationType: "",
@@ -84,7 +83,6 @@ const CreateUser = (props) => {
         setEnabledCheck(data.role);
         setDatos({
           role: data.role,
-          username: data.username,
           password: data.password,
           name: data.name,
           identificationType: data.identificationType,
@@ -160,7 +158,6 @@ const CreateUser = (props) => {
 
     setDatos({
       role: validatedAll,
-      username: datos.username,
       password: datos.password,
       name: datos.name,
       identificationType: datos.identificationType,
@@ -199,7 +196,6 @@ const CreateUser = (props) => {
     //setDatos es el estado donde se encuentra definido al inicio los campos
     setDatos({
       role: validateArray.length === 0 ? roleTeacher : validateArray,
-      username: datos.username,
       password: datos.password,
       name: datos.name,
       identificationType: datos.identificationType,
@@ -320,34 +316,16 @@ const CreateUser = (props) => {
               <h4>Credenciales</h4>
             </CCardHeader>
             <CCardBody>
+              <Alert color="info" isOpen={visible} toggle={onDismiss}>
+                El <b>usuario</b> es el número de documento, también se recomienda usarlo para la contraseña.
+              </Alert>
               <div className="form-row">
-                <div className="col-md-6 mb-3">
-                  <label style={{ color: "#3c4b64" }}>
-                    <b>Usuario</b>
-                    <label style={{ color: "blue" }}>*</label>
-                    <CFormText className="help-block">
-                      Usa el número de cédula
-                    </CFormText>
-                  </label>
-                  <input
-                    type="text"
-                    name="username"
-                    className="form-control"
-                    required
-                    value={datos.username}
-                    onChange={handleInputChange}
-                  />
-                  <Form.Control.Feedback>¡Muy bien!</Form.Control.Feedback>
-                  <Form.Control.Feedback type="invalid">
-                    Por favor introduce el usuario.
-                  </Form.Control.Feedback>
-                </div>
                 <div className="col-md-6 mb-3">
                   <label style={{ color: "#3c4b64" }}>
                     <b>Contraseña</b>
                     <label style={{ color: "blue" }}>*</label>
                     <CFormText className="help-block">
-                      Usa el número de cédula
+                      Usa el número de documento.
                     </CFormText>
                   </label>
                   <input
@@ -357,7 +335,6 @@ const CreateUser = (props) => {
                     required
                     value={datos.password}
                     onChange={handleInputChange}
-                    disabled={idParamsUser ? "disabled" : ""}
                   />
                   <Form.Control.Feedback>¡Muy bien!</Form.Control.Feedback>
                   <Form.Control.Feedback type="invalid">

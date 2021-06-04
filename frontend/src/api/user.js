@@ -74,3 +74,57 @@ export const updateUser = async (id, obj) => {
     });
   }
 };
+
+//delete usuario
+export const deleteUser = async (id) => {
+  try {
+    const response = await instance.delete(`/users/${id}`);
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+//Cambiar el contraseña
+export const changePassword = async (id, password) => {
+  try {
+    const response = await instance.put(`/users/change-password/${id}`, {
+      password,
+    });
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const recoverPassword = async (email) => {
+  try {
+    const response = await instance.post(`/users/recover-password`, {
+      email,
+    });
+    return response;
+  } catch (error) {
+    console.log(error);
+    Toast.fire({
+      icon: "info",
+      title: `<span style="color:#FFFFFF">${error.response.data.message}<span>`,
+    });
+  }
+};
+
+export const newPassword = async (password, passwodConfirm, token) => {
+  try {
+    const response = await instance.post(`/users/new-password/${token}`, {
+      newPassword: password,
+      verifyPassword: passwodConfirm,
+    });
+    return response;
+  } catch (error) {
+    console.log(error);
+
+    Toast.fire({
+      icon: "info",
+      title: `<span style="color:#FFFFFF">${error.response.data.message}<span>`,
+    });
+  }
+};

@@ -6,12 +6,6 @@ const roles = {
 };
 const userSchema = new Schema(
   {
-    username: {
-      type: String,
-      required: true,
-      trim: true,
-      unique: true,
-    }, //nombre de usuario para ingreso
     password: {
       type: String,
       required: true,
@@ -39,6 +33,12 @@ const userSchema = new Schema(
       trim: true,
       unique: true,
     }, //correo electronico de la persona
+    reset_password_token: {
+      type: String,
+    },
+    reset_password_expires: {
+      type: Date,
+    },
     telephone: {
       type: String,
     }, //numero de telefono o celular de la persona

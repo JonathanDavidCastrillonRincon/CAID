@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Form } from "react-bootstrap";
 
 import { useHistory } from "react-router-dom";
+import Swal from "sweetalert2";
 
 import {
   CCard,
@@ -16,18 +17,18 @@ import {
   CFormText,
 } from "@coreui/react";
 
-import { login } from "../../../api/login";
-
+import { recoverPassword } from "../../../api/user";
 // Tell webpack that Button.js uses these styles
-const Login = () => {
+const RecoverPassword = () => {
   const history = useHistory();
   //Variables para validar campos vacíos
   const [validated, setValidated] = useState(false);
 
-  const [identification, setIdentification] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  //Fin variables para validar campos vacíos
 
-  const handleSubmit = (event) => {
+  const handleRecoverPassword = (event) => {
+    event.preventDefault();
     event.preventDefault();
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
@@ -35,16 +36,29 @@ const Login = () => {
       event.stopPropagation();
     }
     setValidated(true);
-    login(identification, password).then((response) => {
-      if (response?.status === 200) {
-        localStorage.setItem("token", response.data.token);
-        window.location.href = "/calendar";
-        localStorage.setItem("user", JSON.stringify(response.data.userFound));
+    recoverPassword(email).then((response) => {
+      if (response) {
+        setEmail('')
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "bottom",
+          showCloseButton: true,
+          background: "#2c2f33",
+          showConfirmButton: false,
+          timer: 2000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener("mouseenter", Swal.stopTimer);
+            toast.addEventListener("mouseleave", Swal.resumeTimer);
+          },
+        });
+        Toast.fire({
+          icon: "success",
+          title: `<span style="color:#FFFFFF">${response.data.message}<span>`,
+        });
       }
     });
   };
-  //Fin variables para validar campos vacíos
-
   return (
     <div className="c-app c-default-layout flex-row align-items-center">
       <CContainer>
@@ -52,76 +66,40 @@ const Login = () => {
           {/* ============================================================== */}
           {/*--- Formulario iniciar sesión ---*/}
           {/* ============================================================== */}
-          <div className="col-6">
-            <br />
-            <br />
-            <br />
-            <br />
-            <font size="7" style={{ color: "#162447" }}>
-              <b>CAID</b>
-            </font>
-            <br />
-            <font size="5">
-              CAID te ayuda a gestionar y planificar todas las actividades en tú
-              labor como docente.
-            </font>
-          </div>
+          
           <CCol className="col-md-5" md="4">
             <CCard className="shadow p-4">
               <CCardBody>
-                <Form noValidate validated={validated} onSubmit={handleSubmit}>
+                <Form
+                  noValidate
+                  validated={validated}
+                  onSubmit={handleRecoverPassword}
+                >
                   <h4 style={{ color: "#162447" }}>
                     <center>
-                      <b>¡Hola de nuevo!</b>
+                      <b>¡No te preocupes!</b>
                     </center>
                   </h4>
                   <font size="3" className="text-muted">
-                    <center>Inicia sesión con tu cuenta.</center>
+                    <center>Puedes recuperar tu contraseña.</center>
                   </font>
                   <br />
                   <div xs="12" className="mb-3">
                     <label style={{ color: "#3c4b64" }}>
-                      <b>Número de identificación</b>
+                      <b>Correo electrónico</b>
                     </label>
                     <CInput
                       onChange={(e) => {
-                        setIdentification(e.target.value);
+                        setEmail(e.target.value);
                       }}
                       type="text"
-                      autoComplete="username"
+                      autoComplete="email"
                       required
                     />
                     <Form.Control.Feedback type="invalid">
-                      Por favor llenar el campo.
+                      Por favor añade el correo electrónico asociado a la cuenta.
                     </Form.Control.Feedback>
                   </div>
-                  <div xs="12" className="mb-3">
-                    <label style={{ color: "#3c4b64" }}>
-                      <b>Contraseña</b>
-                    </label>
-                    <CInput
-                      onChange={(e) => {
-                        setPassword(e.target.value);
-                      }}
-                      type="password"
-                      autoComplete="current-password"
-                      required
-                    />
-                    <CFormText className="help-block">
-                      <font size="2">
-                        <a
-                          onClick={() => history.push("/recover-password")}
-                          style={{ color: "#162447", cursor: "pointer" }}
-                        >
-                          ¿Olvidaste tu contraseña?
-                        </a>
-                      </font>
-                    </CFormText>
-                    <Form.Control.Feedback type="invalid">
-                      Por favor llenar el campo.
-                    </Form.Control.Feedback>
-                  </div>
-                  
                   <CRow>
                     <CCol xs="12">
                       <CButton
@@ -133,18 +111,17 @@ const Login = () => {
                       >
                         <span className="text">
                           <center>
-                            <b>Iniciar sesión</b>
+                            <b>Recuperar contraseña</b>
                           </center>
                         </span>
                       </CButton>
                       <CFormText className="help-block">
                         <font size="2">
-                          ¿Eres usuario visitante?{" "}
                           <a
-                            onClick={() => history.push("/visitorSearch")}
+                            onClick={() => history.push("/login")}
                             style={{ color: "#162447", cursor: "pointer" }}
                           >
-                            Acceder
+                            ¿Deseas regresar al login?
                           </a>
                         </font>
                       </CFormText>
@@ -152,12 +129,8 @@ const Login = () => {
                   </CRow>
                 </Form>
               </CCardBody>
+              
             </CCard>
-            <font size="3">
-              <center>
-                <b>Asigna</b> tus actividades personales al calendario.
-              </center>
-            </font>
           </CCol>
           {/* ============================================================== */}
           {/*--- Fin Formulario iniciar sesión ---*/}
@@ -168,4 +141,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default RecoverPassword;

@@ -13,6 +13,12 @@ const TheLayout = React.lazy(() => import("./containers/TheLayout"));
 
 // Views
 const Login = React.lazy(() => import("./views/viewsUsers/login/Login"));
+const RecoverPassword = React.lazy(() =>
+  import("./views/viewsUsers/recoverPassword/recover")
+);
+const ResetPassword = React.lazy(() =>
+  import("./views/viewsUsers/resetPassword/reset")
+);
 const VisitorSearch = React.lazy(() =>
   import("./views/viewsUsers/login/VisitorSearch")
 );
@@ -26,6 +32,18 @@ class App extends Component {
       <Router>
         <React.Suspense fallback={loading}>
           <Switch>
+            <Route
+              exact
+              path="/recover-password"
+              name="Recuperar contraseña"
+              render={(props) => <RecoverPassword {...props} />}
+            />
+            <Route
+              exact
+              path="/reset/:token"
+              name="Nueva contraseña"
+              render={(props) => <ResetPassword {...props} />}
+            />
             <Route
               exact
               path="/login"

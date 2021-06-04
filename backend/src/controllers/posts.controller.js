@@ -94,9 +94,8 @@ export const createPost = (req, res) => {
             .status(201)
             .send({ data: post, message: "La actividad ha sido creada" });
           mailer({
-            to: "jcastrillon2@udi.edu.co",
-            subject: "Calificación de estudiante",
-            html: `<p>25-05-2021</p>`,
+            to: "caidapplication@gmail.com",
+            subject: "Verifica el calendario interactivo",
           });
         }
       }

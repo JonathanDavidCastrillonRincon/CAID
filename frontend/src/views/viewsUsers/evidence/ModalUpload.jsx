@@ -109,7 +109,7 @@ const ModalUpload = ({ show, onClose, data, allActivities }) => {
       [e.target.name]: e.target.value,
     });
   };
-  //Enviar los datos data
+  //submit data
   const handleSubmit = (event) => {
     event.preventDefault();
     const form = event.currentTarget;
@@ -267,7 +267,6 @@ const ModalUpload = ({ show, onClose, data, allActivities }) => {
               <br />
               <div className="form-row">
                 <div className="col-md-12 mb-3">
-                  <label style={{ color: "#3c4b64" }}><b>Seleccionar asistentes</b></label>
                   <Select
                     closeMenuOnSelect={false}
                     value={participants}

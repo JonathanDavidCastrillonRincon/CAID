@@ -15,7 +15,6 @@ import makeAnimated from "react-select/animated";
 
 //Importar componente AlertSave
 import AlertSave from "./AlertSave";
-
 import { Modal } from "react-bootstrap";
 
 import { CButton, CRow, CCollapse } from "@coreui/react";
@@ -119,7 +118,7 @@ export default function ModalActivity(props) {
 
   React.useEffect(() => {
     dataByActivity ? loadInfoActivity(dataByActivity) : loadDefault();
-  }, [dataByActivity, datos.activityType]);
+  }, [dataByActivity]);
 
   //Carga la vacio en los inputs y select
   const loadDefault = () => {
@@ -131,7 +130,6 @@ export default function ModalActivity(props) {
       status: "1",
       visibilityActivity: "1",
     });
-
     setInitial(new Date());
     setFinal(new Date());
     setResponsable([]);
@@ -485,6 +483,8 @@ export default function ModalActivity(props) {
                       <b>Participantes</b>
                     </label>
                     <Select
+                      closeMenuOnSelect={false}
+                      components={animatedComponents}
                       value={participants}
                       onChange={(value) => setParticipants(value)}
                       isMulti
